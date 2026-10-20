@@ -1,5 +1,5 @@
 /* 大谷マップinSeoul
-   データ: data/spots.json  地図: Leaflet + CARTO / OpenStreetMap タイル */
+   データ: data/spots.json  地図: Leaflet + OpenStreetMap タイル */
 (function () {
   "use strict";
 
@@ -104,15 +104,13 @@
   }
 
   function buildTileBase() {
-  const carto = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 19, subdomains: "abcd",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
-  });
-  const osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
-  });
-  carto.addTo(map);
-  L.control.layers({ "淡色地図（CARTO）": carto, "OpenStreetMap": osm }, null, { position: "topright" }).addTo(map);
+  // CARTO の地図タイルは API キーが必要になったため、キー不要の OpenStreetMap を使う。
+  // 「淡色」は同じタイルを CSS で淡く表示したもの（ピンを見やすくするため）。
+  const osmAttr = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+  const pale = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, className: "tiles-pale", attribution: osmAttr });
+  const osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: osmAttr });
+  pale.addTo(map);
+  L.control.layers({ "淡色地図": pale, "カラー地図（OpenStreetMap）": osm }, null, { position: "topright" }).addTo(map);
   }
 
   const cluster = L.markerClusterGroup({

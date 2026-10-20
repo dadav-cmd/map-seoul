@@ -419,3 +419,6 @@ select {
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mood .i-dark { fill: #8D8D96; } }
 .list-title { font-family: var(--font-maru); }
 @media (min-width: 900px) { .mood-row { flex-wrap: wrap; overflow: visible; } .mood { min-width: 0; flex: 1 1 30%; padding: 8px 6px 7px; } }
+
+/* pale base map: OpenStreetMap tiles toned down so pins stand out */
+.leaflet-layer.tiles-pale { filter: grayscale(.9) brightness(1.06) contrast(.88); }
